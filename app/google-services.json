@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "970401183892",
+    "project_id": "mobileprogramming-3004c",
+    "storage_bucket": "mobileprogramming-3004c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:970401183892:android:a49c1a35c42d2ae9441c81",
+        "android_client_info": {
+          "package_name": "gachon.mpclass.brainstorm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "970401183892-tie0uj290qtplmvn1ihl485bu4lk9a8d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "gachon.mpclass.brainstorm",
+            "certificate_hash": "92976f533f7bfeec91e0e1e5278c98d1a9d34f15"
+          }
+        },
+        {
+          "client_id": "970401183892-ooj1h0dq4vm242r88ovqn3gr2l18ji9p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCg3TtG6_CMRPnmy6N0Yxu9KDz75043Yzo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "970401183892-ooj1h0dq4vm242r88ovqn3gr2l18ji9p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
