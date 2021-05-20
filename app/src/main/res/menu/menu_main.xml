@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/menu_code"
-        android:title="방 코드 만들기"
+    <item android:id="@+id/menu_newchat"
+        android:title="채팅방 생성"
         app:showAsAction="withText"/>
     <item android:id="@+id/menu_chatroom"
-        android:title="채팅방"
+        android:title="채팅방 입장"
         app:showAsAction="withText"/>
     <item android:id="@+id/menu_out"
         android:title="로그아웃"

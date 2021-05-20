@@ -13,9 +13,9 @@
         android:theme="@style/Theme.Brainstorm">
         <activity android:name=".SignupActivity"></activity>
         <activity android:name=".HomeActivity" />
-        <activity android:name=".NewActivity" />
+        <activity android:name=".EnterActivity" />
         <activity android:name=".Chatting" />
-        <activity android:name=".Chat" />
+        <activity android:name=".MakeRoomActivity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

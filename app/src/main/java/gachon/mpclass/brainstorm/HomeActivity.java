@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class HomeActivity extends AppCompatActivity {
 
     @Override
@@ -24,15 +26,17 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int curId = item.getItemId();
         switch(curId){
-            case R.id.menu_code:
-                Toast.makeText(this, "방 코드 만들기", Toast.LENGTH_SHORT).show();
+            case R.id.menu_newchat:
+                Toast.makeText(this, "새로운 채팅방 생성", Toast.LENGTH_SHORT).show();
+                Intent intent1 = new Intent(this, MakeRoomActivity.class);
+                startActivity(intent1);
                 break;
             case R.id.menu_chatroom:
-                Intent intent = new Intent(this, NewActivity.class);
-                startActivity(intent);
-                Toast.makeText(this, "채팅방에 입장하였습니다", Toast.LENGTH_SHORT).show();
+                Intent intent2 = new Intent(this, EnterActivity.class);
+                startActivity(intent2);
                 break;
             case R.id.menu_out:
+                FirebaseAuth.getInstance().signOut();
                 Toast.makeText(this, "로그아웃되었습니다.", Toast.LENGTH_SHORT).show();
                 break;
         }
