@@ -7,7 +7,11 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatAdapter extends BaseAdapter {
 
@@ -51,6 +55,7 @@ public class ChatAdapter extends BaseAdapter {
         }
 
         //만들어진 itemView에 값들 설정
+        CircleImageView iv= itemView.findViewById(R.id.iv);
         TextView tvName= itemView.findViewById(R.id.tv_name);
         TextView tvMsg= itemView.findViewById(R.id.tv_msg);
         TextView tvTime= itemView.findViewById(R.id.tv_time);
@@ -59,7 +64,7 @@ public class ChatAdapter extends BaseAdapter {
         tvMsg.setText(item.getMessage());
         tvTime.setText(item.getTime());
 
-
+        Glide.with(itemView).load(item.getPofileUrl()).into(iv);
 
         return itemView;
     }
