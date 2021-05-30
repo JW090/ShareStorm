@@ -7,7 +7,4 @@
     <item android:id="@+id/menu_chatroom"
         android:title="채팅방 입장"
         app:showAsAction="withText"/>
-    <item android:id="@+id/menu_out"
-        android:title="로그아웃"
-        app:showAsAction="withText"/>
 </menu>

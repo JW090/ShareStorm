@@ -1,67 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/new_activity"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
     tools:context=".EnterActivity">
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="120dp"
-        android:layout_marginTop="50dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
         android:text="채팅방 입장"
+        android:layout_margin="50dp"
         android:textColor="@color/black"
         android:textSize="35dp">
 
     </TextView>
 
-
-
-
-    <EditText
-        android:id="@+id/et_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:maxLength="10"
-        android:layout_centerInParent="true"
-        android:hint="Input nick name"
-        android:inputType="text"
-        android:gravity="center"
-        android:padding="8dp"
-        android:background="@drawable/back_et_name"
-        android:textCursorDrawable="@drawable/et_name_cursor"/>
-    <!--    ems최소 글자로-->
-    <!--    android:textCursorDrawable="@null" 이면 글씨 색과 같은 커서색-->
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/iv_profile"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_centerInParent="true"
-        android:layout_above="@id/et_name"
-        android:layout_marginBottom="16dp"
-        android:src="@mipmap/ic_launcher"
-        android:clickable="true"
-        android:onClick="clickImage"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="입장"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="16dp"
-        android:onClick="clickBtn"/>
-
     <EditText
         android:id="@+id/roomcode"
         android:layout_width="358dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="400dp"
-        android:layout_marginLeft="30dp"
+        android:layout_gravity="center"
+        android:gravity="clip_vertical|center_horizontal"
         android:hint="방코드 입력"></EditText>
-</RelativeLayout>
+
+
+    <Button
+        android:id="@+id/enter"
+        android:layout_width="wrap_content"
+        android:layout_height="61dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:text="입장">
+
+    </Button>
+
+
+</LinearLayout>

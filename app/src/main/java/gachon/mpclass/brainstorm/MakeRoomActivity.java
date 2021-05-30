@@ -9,6 +9,7 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,14 +25,13 @@ public class MakeRoomActivity extends AppCompatActivity {
 
         Button enterbutton = (Button) findViewById(R.id.enter);
         EditText roomname = (EditText)findViewById(R.id.roomname);
-        EditText name = (EditText)findViewById(R.id.nickname);
 
         enterbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ChatModel chatroom = new ChatModel();
                 chatroom.roomname = roomname.getText().toString();
-                chatroom.user.add(name.getText().toString());
+                chatroom.user.add(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
                 chatroom.roomid = FirebaseDatabase.getInstance().getReference().child("chatroom").push().getKey();
                 FirebaseDatabase.getInstance().getReference().child("chatroom").child(chatroom.roomid).setValue(chatroom);

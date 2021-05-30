@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:text="채팅방 입장"
+        android:text="채팅방 만들기"
         android:layout_margin="50dp"
         android:textColor="@color/black"
         android:textSize="35dp">
@@ -25,16 +25,6 @@
         android:layout_gravity="center"
         android:gravity="clip_vertical|center_horizontal"
         android:hint="방 이름 입력"></EditText>
-
-    <EditText
-        android:id="@+id/nickname"
-        android:layout_width="358dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="clip_vertical|center_horizontal"
-        android:hint="사용할 닉네임 입력"
-        android:layout_marginTop="20dp">
-    </EditText>
 
 
     <Button
