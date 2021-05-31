@@ -176,10 +176,9 @@ public class NodeFragment extends Fragment {
                     String temp_id = mindmapData.id;
 
 
-                    act.add_Node(fragment,temp_text);
+                    //act.add_Node(fragment,temp_text);
 
-
-                        setNode(temp_text);
+                    setNode(temp_text);
 
 
 
@@ -193,7 +192,7 @@ public class NodeFragment extends Fragment {
                 @Override
                 public void onChildRemoved(@NonNull DataSnapshot snapshot) {
 
-                    act.remove_node(fragment);
+
 
                 }
 
@@ -222,7 +221,7 @@ public class NodeFragment extends Fragment {
                 String temp_id = mindmapData.id;
 
 
-                // act.add_Node(fragment,temp_text);
+                //act.add_Node(fragment,temp_text);
 
                 setNode(temp_text);
 
@@ -236,7 +235,7 @@ public class NodeFragment extends Fragment {
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
 
-                act.remove_node(fragment);
+
 
             }
 
@@ -280,7 +279,7 @@ public class NodeFragment extends Fragment {
         switch (item.getItemId()){
             case R.id.edit: get_edit_text();
             return true;
-            case R.id.remove: act.remove_node(this);
+            case R.id.remove: act1.remove_node(this);
             return true;
         }
         return false;
@@ -293,10 +292,10 @@ public class NodeFragment extends Fragment {
     //수정누르면 텍스트 팝업으로 입력받기
     public void get_edit_text(){
 
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act1);
         builder.setTitle("단어 입력");
 
-        final EditText input = new EditText(act);
+        final EditText input = new EditText(act1);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(input);
 
@@ -335,6 +334,7 @@ public class NodeFragment extends Fragment {
     public void setNode( String text){
 
 
+        node.data = text;
         node_text.setText(text);
 
     }

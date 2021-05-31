@@ -86,7 +86,7 @@ public class Mindmap2 extends AppCompatActivity {
         str = findViewById(R.id.Root_Node);
 
         Intent i = getIntent();
-        String starting_word = i.getStringExtra("start");
+        String starting_word = i.getStringExtra("Start");
         str.setText(starting_word);
 
         MindmapData mdata = new MindmapData();
@@ -147,7 +147,7 @@ public class Mindmap2 extends AppCompatActivity {
                 String temp = mindmapData.text_data;
 
                 //데이터 확인용 - Toast.makeText(getApplicationContext(),temp,Toast.LENGTH_SHORT).show();
-                //add_Node(fragment,temp);
+                add_Node(fragment,temp);
 
 
                 // node_text.setText(temp);

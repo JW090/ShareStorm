@@ -150,7 +150,7 @@ public class Mindmap extends AppCompatActivity {
                 String temp = mindmapData.text_data;
 
 
-                //add_Node(fragment,temp);
+                add_Node(fragment,temp);
 
             }
 
