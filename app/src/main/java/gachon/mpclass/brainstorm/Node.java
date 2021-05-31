@@ -14,7 +14,7 @@ public class Node {
 
     public Node root_Node;
     public int x_margin,y_margin;
-    public int size =0;
+
 
     public ArrayList<Node> child_node;
     public String data;
@@ -28,14 +28,13 @@ public class Node {
         this.root_Node = null;
         this.child_node = new ArrayList<>();
         this.fragment = fragment;
-        this.size = 0;
     }
 
     public void add_Child(Node child){
 
         child.root_Node = this;
         child_node.add(child);
-        child.size = size++;
+
     }
 
 

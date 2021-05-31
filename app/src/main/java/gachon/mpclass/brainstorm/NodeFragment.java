@@ -50,8 +50,6 @@ public class NodeFragment extends Fragment {
     private Mindmap act;
     private Mindmap2 act1;
 
-    private String temp;
-    public String key;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -144,51 +142,13 @@ public class NodeFragment extends Fragment {
         roomid = bundle.getString("roomid");
 
 
+
         btn_node = rootView.findViewById(R.id.node_img);
         node_text = rootView.findViewById(R.id.data);
         btn_start = rootView.findViewById(R.id.btn_mind_root);
 
         MindmapData mdata = new MindmapData();
 
-
-        /*btn_node.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(act);
-                builder.setTitle("단어 입력");
-
-                final EditText input = new EditText(act);
-                input.setInputType(InputType.TYPE_CLASS_TEXT);
-                builder.setView(input);
-
-                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        String temp = input.getText().toString();
-
-                        mdata.text_data = temp;
-                        mdata.id = FirebaseDatabase.getInstance().getReference().child("Mindmap").push().getKey();
-                        key = mdata.id;
-
-                        FirebaseDatabase.getInstance().getReference().child("Mindmap").child(mdata.id).setValue(mdata);
-                        //node_text.setText(temp);
-                    }
-                });
-                builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-
-                builder.show();
-
-            }
-        });*/
-
-        //setNode(temp);
 
         registerForContextMenu(btn_node);
 
@@ -216,9 +176,12 @@ public class NodeFragment extends Fragment {
                     String temp_id = mindmapData.id;
 
 
-                    // act.add_Node(fragment,temp_text);
+                    act.add_Node(fragment,temp_text);
 
-                    //setNode(temp_text);
+
+                        setNode(temp_text);
+
+
 
                 }
 
@@ -261,7 +224,7 @@ public class NodeFragment extends Fragment {
 
                 // act.add_Node(fragment,temp_text);
 
-                setNode(fragment,temp_text);
+                setNode(temp_text);
 
             }
 
@@ -369,9 +332,9 @@ public class NodeFragment extends Fragment {
     }
 
     //텍스트 설정
-    public void setNode( NodeFragment fragment, String text){
+    public void setNode( String text){
 
-        node.data = text;
+
         node_text.setText(text);
 
     }

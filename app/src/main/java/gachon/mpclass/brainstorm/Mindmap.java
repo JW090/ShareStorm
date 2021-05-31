@@ -139,7 +139,7 @@ public class Mindmap extends AppCompatActivity {
              }
          });
 
-         //오류부분
+         //단어 추가 되었을떄이 벤트
         FirebaseDatabase.getInstance().getReference().child("userinfo").child(uid).child("mindmap").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
@@ -149,11 +149,8 @@ public class Mindmap extends AppCompatActivity {
 
                 String temp = mindmapData.text_data;
 
-                //데이터 확인용 - Toast.makeText(getApplicationContext(),temp,Toast.LENGTH_SHORT).show();
-                add_Node(fragment,temp);
 
-
-                // node_text.setText(temp);
+                //add_Node(fragment,temp);
 
             }
 
@@ -297,6 +294,7 @@ public class Mindmap extends AppCompatActivity {
 
             }
         };
+
 
         Bundle bundle = new Bundle();
         bundle.putString("roomid",roomid);

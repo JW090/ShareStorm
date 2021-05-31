@@ -147,7 +147,7 @@ public class Mindmap2 extends AppCompatActivity {
                 String temp = mindmapData.text_data;
 
                 //데이터 확인용 - Toast.makeText(getApplicationContext(),temp,Toast.LENGTH_SHORT).show();
-                add_Node(fragment,temp);
+                //add_Node(fragment,temp);
 
 
                 // node_text.setText(temp);
