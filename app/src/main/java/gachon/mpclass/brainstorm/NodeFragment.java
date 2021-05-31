@@ -197,7 +197,7 @@ public class NodeFragment extends Fragment {
         switch (item.getItemId()){
             case R.id.edit: get_edit_text();
             return true;
-            case R.id.remove: act.remove_node(this);
+            case R.id.remove: FirebaseDatabase.getInstance().getReference().child("MindMap").removeValue(); //act.remove_node(this);
             return true;
         }
         return false;
