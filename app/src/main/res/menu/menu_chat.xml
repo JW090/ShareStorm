@@ -7,4 +7,7 @@
     <item android:id="@+id/menu_exitroom"
         android:title="채팅방 나가기"
         app:showAsAction="withText"/>
+    <item android:id="@+id/menu_mindmap"
+        android:title="마인드 맵"
+        app:showAsAction="withText"/>
 </menu>

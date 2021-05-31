@@ -50,7 +50,7 @@ public class Chatting extends AppCompatActivity {
         roomid = roominfo.roomid;
         String roomname = roominfo.roomname;
 
-        //제목줄 제목글시를 채팅방 이름으로
+        // 제목을 방 이름으로
         getSupportActionBar().setTitle(roomname);
 
         et = findViewById(R.id.et);
@@ -61,23 +61,15 @@ public class Chatting extends AppCompatActivity {
         listView.setAdapter(adapter);
 
 
-        //firebaseDB에서 채팅 메세지들 실시간 읽어오기..
-        //'chat'노드에 저장되어 있는 데이터들을 읽어오기
-        //chatRef에 데이터가 변경되는 것으 듣는 리스너 추가
+        // 메세지가 추가되면 실시간으로 반영
         FirebaseDatabase.getInstance().getReference().child("chatroom").child(roomid).child("message").addChildEventListener(new ChildEventListener() {
-            //새로 추가된 것만 줌 ValueListener는 하나의 값만 바뀌어도 처음부터 다시 값을 줌
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                //새로 추가된 데이터(값 : MessageItem객체) 가져오기
+                // 채팅방 리스트뷰에 추가된 메세지 내용 붙이기
                 MessageItem messageItem = dataSnapshot.getValue(MessageItem.class);
-
-                //새로운 메세지를 리스뷰에 추가하기 위해 ArrayList에 추가
                 messageItems.add(messageItem);
-
-                //리스트뷰를 갱신
                 adapter.notifyDataSetChanged();
-                listView.setSelection(messageItems.size() - 1); //리스트뷰의 마지막 위치로 스크롤 위치 이동
+                listView.setSelection(messageItems.size() - 1);
             }
 
             @Override
@@ -104,26 +96,20 @@ public class Chatting extends AppCompatActivity {
         btn.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View v) {
-                //firebase DB에 저장할 값들( 닉네임, 메세지, 프로필 이미지URL, 시간)
                 String nickName = UserModel.nickname;
                 String message= et.getText().toString();
 
-                //메세지 작성 시간 문자열로..
-                Calendar calendar= Calendar.getInstance(); //현재 시간을 가지고 있는 객체
-                String time=calendar.get(Calendar.HOUR_OF_DAY)+":"+calendar.get(Calendar.MINUTE); //14:16
+                // 현재 시간 저장
+                Calendar calendar= Calendar.getInstance();
+                String time=calendar.get(Calendar.HOUR_OF_DAY)+":"+calendar.get(Calendar.MINUTE);
 
-                //firebase DB에 저장할 값(MessageItem객체) 설정
                 MessageItem messageItem= new MessageItem(nickName,message,time);
 
-                //'char'노드에 MessageItem객체를 통해
-                //key = FirebaseDatabase.getInstance().getReference().child("chatroom").child(roomid).child("message").push().getKey();
+                // 데이터베이스에 닉네임, 메세지, 시간 정보 저장
                 FirebaseDatabase.getInstance().getReference().child("chatroom").child(roomid).child("message").push().setValue(messageItem);
 
-
-                //EditText에 있는 글씨 지우기
                 et.setText("");
 
-                //소프트키패드를 안보이도록..
                 InputMethodManager imm=(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),0);
 
@@ -131,30 +117,6 @@ public class Chatting extends AppCompatActivity {
             }
         });
     }
-
-/*    public void clickSend(View view) {
-        //firebase DB에 저장할 값들( 닉네임, 메세지, 프로필 이미지URL, 시간)
-        String nickName= UserModel.nickname;
-        String message= et.getText().toString();
-
-        //메세지 작성 시간 문자열로..
-        Calendar calendar= Calendar.getInstance(); //현재 시간을 가지고 있는 객체
-        String time=calendar.get(Calendar.HOUR_OF_DAY)+":"+calendar.get(Calendar.MINUTE); //14:16
-
-        //firebase DB에 저장할 값(MessageItem객체) 설정
-        MessageItem messageItem= new MessageItem(nickName,message,time);
-        //'char'노드에 MessageItem객체를 통해
-        FirebaseDatabase.getInstance().getReference().child("chatroom").child(roomid).child("message").push().setValue(messageItem);
-
-        //EditText에 있는 글씨 지우기
-        et.setText("");
-
-        //소프트키패드를 안보이도록..
-        InputMethodManager imm=(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),0);
-
-    }
-*/
 
 
     // 채팅방 안에서 메뉴
@@ -168,13 +130,26 @@ public class Chatting extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int curId = item.getItemId();
         switch(curId){
-            case R.id.menu_chatcode:
+            case R.id.menu_chatcode: // 채팅방 코드 복사
                 ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
                 ClipData clipData = ClipData.newPlainText("roomcode", roominfo.roomid);
                 clipboardManager.setPrimaryClip(clipData);
                 Toast.makeText(getApplication(), "코드가 복사되었습니다",Toast.LENGTH_LONG).show();
                 break;
-            case R.id.menu_exitroom:
+            case R.id.menu_exitroom: //채팅방 나가기
+
+                // 데이터베이스에서 유저 삭제
+                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                FirebaseDatabase.getInstance().getReference().child("chatroom").child(roomid).child("user").child(uid).removeValue();
+
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.menu_mindmap:
+                Intent intent2 = new Intent(getApplicationContext(), HomeActivity2.class);
+                intent2.putExtra("roomid",roomid);
+                startActivity(intent2);
 
                 break;
         }

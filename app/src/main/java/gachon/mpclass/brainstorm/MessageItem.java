@@ -12,12 +12,10 @@ public class MessageItem {
         this.time = time;
     }
 
-    //firebase DB에 객체로 값을 읽어올 때..
-    //파라미터가 비어있는 생성자가 핑요함.
     public MessageItem() {
     }
 
-    //Getter & Setter
+    // Getter & Setter
     public String getName() {
         return name;
     }

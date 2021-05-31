@@ -14,10 +14,12 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity2 extends AppCompatActivity {
 
     Button start_button;
     EditText starting_word;
+
+    String roomid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,7 @@ public class HomeActivity extends AppCompatActivity {
         start_button = findViewById(R.id.btn_start);
         starting_word = findViewById(R.id.start_text);
 
+        roomid = (String) getIntent().getStringExtra("roomid");
 
 
         start_button.setOnClickListener(new View.OnClickListener() {
@@ -35,35 +38,14 @@ public class HomeActivity extends AppCompatActivity {
 
                 String text = starting_word.getText().toString();
 
-                Intent intent = new Intent(getApplicationContext(),Mindmap.class);
+                Intent intent = new Intent(getApplicationContext(),Mindmap2.class);
                 intent.putExtra("Start",text);
+                intent.putExtra("roomid",roomid);
                 startActivity(intent);
 
             }
         });
 
 
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    // 홈화면 메뉴바
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int curId = item.getItemId();
-        switch(curId){
-            case R.id.menu_newchat: //채팅방 생성
-                Intent intent1 = new Intent(this, MakeRoomActivity.class);
-                startActivity(intent1);
-                break;
-            case R.id.menu_chatroom: //채팅방 입장
-                Intent intent2 = new Intent(this, EnterActivity.class);
-                startActivity(intent2);
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

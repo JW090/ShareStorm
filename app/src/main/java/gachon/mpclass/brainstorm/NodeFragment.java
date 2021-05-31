@@ -20,7 +20,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -44,8 +48,10 @@ public class NodeFragment extends Fragment {
 
     private NodeFragment fragment;
     private Mindmap act;
+    private Mindmap2 act1;
 
     private String temp;
+    public String key;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -56,6 +62,12 @@ public class NodeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+
+
+    String roomid;
+    String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
 
     public NodeFragment() {
         // Required empty public constructor
@@ -74,6 +86,24 @@ public class NodeFragment extends Fragment {
 
         this.act = mindmap;
     }
+
+    public NodeFragment(Mindmap2 mindmap, String text) {
+
+        this.node = new Node(this,text);
+        this.act1 = mindmap;
+
+
+    }
+
+    public NodeFragment(Mindmap2 mindmap, Node node){
+        this.node = node;
+        this.node.fragment = this;
+
+        this.act1 = mindmap;
+
+
+    }
+
 
     /**
      * Use this factory method to create a new instance of
@@ -100,6 +130,7 @@ public class NodeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
 
@@ -109,6 +140,10 @@ public class NodeFragment extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_node,container,false);
 
 
+        Bundle bundle = getArguments();
+        roomid = bundle.getString("roomid");
+
+
         btn_node = rootView.findViewById(R.id.node_img);
         node_text = rootView.findViewById(R.id.data);
         btn_start = rootView.findViewById(R.id.btn_mind_root);
@@ -116,7 +151,7 @@ public class NodeFragment extends Fragment {
         MindmapData mdata = new MindmapData();
 
 
-        btn_node.setOnClickListener(new View.OnClickListener() {
+        /*btn_node.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -135,6 +170,7 @@ public class NodeFragment extends Fragment {
 
                         mdata.text_data = temp;
                         mdata.id = FirebaseDatabase.getInstance().getReference().child("Mindmap").push().getKey();
+                        key = mdata.id;
 
                         FirebaseDatabase.getInstance().getReference().child("Mindmap").child(mdata.id).setValue(mdata);
                         //node_text.setText(temp);
@@ -150,9 +186,9 @@ public class NodeFragment extends Fragment {
                 builder.show();
 
             }
-        });
+        });*/
 
-        setNode(temp);
+        //setNode(temp);
 
         registerForContextMenu(btn_node);
 
@@ -164,11 +200,95 @@ public class NodeFragment extends Fragment {
         });
 
 
-
         // Inflate the layout for this fragment
+
+        if(roomid!=null){
+            FirebaseDatabase.getInstance().getReference().child("chatroom").child(roomid).child("mindmap").addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                    //새로추가된 값 가져오기
+                    MindmapData mindmapData = snapshot.getValue(MindmapData.class);
+
+                    //int position = act.mdata_id.size();
+
+                    String temp_text = mindmapData.text_data;
+                    String temp_id = mindmapData.id;
+
+
+                    // act.add_Node(fragment,temp_text);
+
+                    //setNode(temp_text);
+
+                }
+
+                @Override
+                public void onChildChanged(@NonNull  DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                    act.remove_node(fragment);
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull  DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+
+        FirebaseDatabase.getInstance().getReference().child("userinfo").child(uid).child("mindmap").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                //새로추가된 값 가져오기
+                MindmapData mindmapData = snapshot.getValue(MindmapData.class);
+
+                //int position = act.mdata_id.size();
+
+                String temp_text = mindmapData.text_data;
+                String temp_id = mindmapData.id;
+
+
+                // act.add_Node(fragment,temp_text);
+
+                setNode(fragment,temp_text);
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull  DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                act.remove_node(fragment);
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull  DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         return rootView;
-
-
     }
 
 
@@ -197,11 +317,15 @@ public class NodeFragment extends Fragment {
         switch (item.getItemId()){
             case R.id.edit: get_edit_text();
             return true;
-            case R.id.remove: FirebaseDatabase.getInstance().getReference().child("MindMap").removeValue(); //act.remove_node(this);
+            case R.id.remove: act.remove_node(this);
             return true;
         }
         return false;
     }
+
+
+
+
 
     //수정누르면 텍스트 팝업으로 입력받기
     public void get_edit_text(){
@@ -245,7 +369,7 @@ public class NodeFragment extends Fragment {
     }
 
     //텍스트 설정
-    public void setNode( String text){
+    public void setNode( NodeFragment fragment, String text){
 
         node.data = text;
         node_text.setText(text);

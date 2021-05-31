@@ -25,20 +25,25 @@ public class MakeRoomActivity extends AppCompatActivity {
 
         Button enterbutton = (Button) findViewById(R.id.enter);
         EditText roomname = (EditText)findViewById(R.id.roomname);
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
 
         enterbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ChatModel chatroom = new ChatModel();
                 chatroom.roomname = roomname.getText().toString();
-                chatroom.user.add(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                //chatroom.user.add(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
                 chatroom.roomid = FirebaseDatabase.getInstance().getReference().child("chatroom").push().getKey();
                 FirebaseDatabase.getInstance().getReference().child("chatroom").child(chatroom.roomid).setValue(chatroom);
+                FirebaseDatabase.getInstance().getReference().child("chatroom").child(chatroom.roomid).child("user").child(uid).push().setValue(uid);
+
 
                 Intent intent = new Intent(getApplicationContext(),Chatting.class);
                 intent.putExtra("roominfo",chatroom);
                 startActivity(intent);
+                finish();
             }
         });
 

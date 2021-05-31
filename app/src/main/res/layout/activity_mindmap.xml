@@ -33,7 +33,7 @@
 
                 <TextView
 
-                    android:id="@+id/str_text"
+                    android:id="@+id/Root_Node"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"

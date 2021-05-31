@@ -39,13 +39,11 @@ public class ChatAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
 
-        //현재 보여줄 번째의(position)의 데이터로 뷰를 생성
         MessageItem item = messageItems.get(position);
 
-        //재활용할 뷰는 사용하지 않음!!
         View itemView=null;
 
-        //메세지가 내 메세지인지??
+        // 메세지가 내 것인지 상대방 것인지 확인하고 리스트뷰에 붙이기
         if(item.getName().equals(UserModel.nickname)){
             itemView= layoutInflater.inflate(R.layout.my_msgbox,viewGroup,false);
         }else{

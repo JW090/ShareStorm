@@ -50,7 +50,7 @@ public class Draw extends View {
             return;
         }
 
-        parentView = parentView.findViewById(R.id.btn_mind_root);
+        parentView = parentView.findViewById(R.id.node_img);
         if (parentView == null) {
             return;
         }

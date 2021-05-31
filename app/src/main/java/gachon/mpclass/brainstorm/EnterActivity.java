@@ -29,7 +29,7 @@ public class EnterActivity extends AppCompatActivity {
                 String id = roomid.getText().toString();
                 String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                FirebaseDatabase.getInstance().getReference().child("chatroom").child(id).child("user").push().setValue(uid)
+                FirebaseDatabase.getInstance().getReference().child("chatroom").child(id).child("user").child(uid).push().setValue(uid)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
@@ -52,6 +52,7 @@ public class EnterActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(),Chatting.class);
                 intent.putExtra("roominfo",chatroom);
                 startActivity(intent);
+                finish();
             }
         });
 

@@ -39,13 +39,17 @@ public class SignupActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
+
+        // 확인 버튼 누르면
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // 입력한 정보 저장
                 String email = email_join.getText().toString().trim();
                 String pwd = pwd_join.getText().toString().trim();
                 String nickname = nickname_join.getText().toString();
 
+                // 입력한 정보로 파이어베이스 이메일/패스워드 방법으로 계정생성
                 firebaseAuth.createUserWithEmailAndPassword(email, pwd)
                         .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
@@ -62,8 +66,10 @@ public class SignupActivity extends AppCompatActivity {
                                     user.put("email",email);
                                     user.put("nickname",nickname);
 
+                                    // 데이터베이스에 유저 정보 저장
                                     FirebaseDatabase.getInstance().getReference().child("userinfo").child(uid).push().setValue(user);
 
+                                    // 핸드폰에 본인 닉네임 저장
                                     SharedPreferences preferences= getSharedPreferences("account",MODE_PRIVATE);
                                     SharedPreferences.Editor editor=preferences.edit();
                                     editor.putString("nickName",UserModel.nickname);

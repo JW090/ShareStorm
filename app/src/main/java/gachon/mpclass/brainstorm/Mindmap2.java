@@ -31,7 +31,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -42,7 +41,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Mindmap extends AppCompatActivity {
+public class Mindmap2 extends AppCompatActivity {
 
     private Random randomFragmentMargins;
     private ArrayList<NodeFragment> nodeFragments;
@@ -59,16 +58,15 @@ public class Mindmap extends AppCompatActivity {
 
     private String temp;
 
-    String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
     String roomid;
-
 
     //메인
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mindmap);
+
+        roomid = (String) getIntent().getStringExtra("roomid");
 
         getSupportActionBar().hide();
 
@@ -78,69 +76,68 @@ public class Mindmap extends AppCompatActivity {
          draw = new Draw(this);
          drawViewContainer.addView(draw);*/
 
-         final Mindmap mindmap = this;
+        final Mindmap2 mindmap = this;
 
-         nodeFragments = new ArrayList<>();
+        nodeFragments = new ArrayList<>();
 
-         prevX=prevY=-1;
+        prevX=prevY=-1;
 
-         btn_root = findViewById(R.id.btn_mind_root);
-         str = findViewById(R.id.Root_Node);
+        btn_root = findViewById(R.id.btn_mind_root);
+        str = findViewById(R.id.Root_Node);
 
-         Intent i = getIntent();
-         String starting_word = i.getStringExtra("Start");
-         str.setText(starting_word);
+        Intent i = getIntent();
+        String starting_word = i.getStringExtra("start");
+        str.setText(starting_word);
 
         MindmapData mdata = new MindmapData();
 
 
         btn_root.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 AlertDialog.Builder builder = new AlertDialog.Builder(mindmap);
-                 builder.setTitle("단어 입력");
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(mindmap);
+                builder.setTitle("단어 입력");
 
-                 final EditText input = new EditText(mindmap);
-                 input.setInputType(InputType.TYPE_CLASS_TEXT);
-                 builder.setView(input);
+                final EditText input = new EditText(mindmap);
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                builder.setView(input);
 
-                 builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                     @Override
-                     public void onClick(DialogInterface dialog, int which) {
+                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-                         String temp = input.getText().toString();
+                        String temp = input.getText().toString();
+
+                        mdata.text_data = temp;
+                        mdata.id = FirebaseDatabase.getInstance().getReference().child("chatroom").child(roomid).child("mindmap").push().getKey();
 
 
-                         mdata.text_data = temp;
-                         mdata.id = FirebaseDatabase.getInstance().getReference().child("userinfo").child(uid).child("mindmap").push().getKey();
+                        FirebaseDatabase.getInstance().getReference().child("chatroom").child(roomid).child("mindmap").child(mdata.id).setValue(mdata);
 
+                    }
+                });
+                builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
 
-                         FirebaseDatabase.getInstance().getReference().child("userinfo").child(uid).child("mindmap").child(mdata.id).setValue(mdata);
+                builder.show();
+            }
+        });
 
-                     }
-                 });
-                 builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                     @Override
-                     public void onClick(DialogInterface dialog, int which) {
-                         dialog.cancel();
-                     }
-                 });
+        registerForContextMenu(btn_root);
 
-                 builder.show();
-             }
-         });
+        btn_root.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return false;
+            }
+        });
 
-         registerForContextMenu(btn_root);
-
-         btn_root.setOnLongClickListener(new View.OnLongClickListener() {
-             @Override
-             public boolean onLongClick(View v) {
-                 return false;
-             }
-         });
-
-         //오류부분
-        FirebaseDatabase.getInstance().getReference().child("userinfo").child(uid).child("mindmap").addChildEventListener(new ChildEventListener() {
+        //오류부분
+        FirebaseDatabase.getInstance().getReference().child("chatroom").child(roomid).child("mindmap").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
@@ -181,7 +178,12 @@ public class Mindmap extends AppCompatActivity {
         });
 
 
-       }
+        /*Bundle bundle = new Bundle();
+        bundle.putString("roomid",roomid);
+        fragment.setArguments(bundle);
+*/
+
+    }
 
 
     //수정삭저장메뉴
@@ -240,7 +242,7 @@ public class Mindmap extends AppCompatActivity {
 
 
     //상단바와 타이틀바의 길이를 합한 값값
-   public int getBarsHeight(){
+    public int getBarsHeight(){
 
         View decorView = getWindow().getDecorView();
         Rect rect = new Rect();
@@ -309,6 +311,7 @@ public class Mindmap extends AppCompatActivity {
     private NodeFragment _createNodeFragmentHierarchy(final Node node)
     {
         final NodeFragment fragment = createNodeFragment(new NodeFragment(this, node));
+
 
 
         fragment.onAddToLayout = new Runnable() {
@@ -380,7 +383,7 @@ public class Mindmap extends AppCompatActivity {
 
     //노드 리스트 얻기
     public ArrayList<NodeFragment> getNodeFragments(){
-       return nodeFragments;
+        return nodeFragments;
     }
 
     //노드 한번에 이동

@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
                 String email = email_login.getText().toString().trim();
                 String pwd = pwd_login.getText().toString().trim();
 
+                // 파이어베이스 이메일/패스워드 로그인 방식으로 로그인
                 firebaseAuth.signInWithEmailAndPassword(email, pwd)
                         .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
